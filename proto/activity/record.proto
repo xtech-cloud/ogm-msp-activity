@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+import "proto/activity/shared.proto";
+
+package activity;
+
+// 频道
+service Channel {
+  // 订阅
+  rpc Subscribe(ChannelSubRequest) returns (BlankResponse) {}
+  // 取消订阅
+  rpc Unsubscribe(ChannelUnsubRequest) returns (BlankResponse) {}
+  // 获取列表
+  rpc Fetch(ChannelFetchRequest) returns (ChannelFetchResponse) {}
+}
+
+// 频道订阅的请求
+message ChannelSubRequest {
+  string notification = 1; // 通知
+}
+
+// 频道取消订阅的请求
+message ChannelUnsubRequest {
+  string notification = 1; // 通知
+}
+
+// 获取频道列表的请求
+message ChannelFetchRequest {
+  int64 offset = 1; // 偏移值
+  int64 count = 2;  // 数量
+}
+
+// 获取频道列表的回复
+message ChannelFetchResponse {
+  Status status = 1;                  // 状态
+  repeated ChannelEntity channel = 2; // 频道列表
+}

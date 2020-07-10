@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+import "proto/activity/shared.proto";
+
+package activity;
+
+// 记录
+service Record {
+  // 获取列表
+  rpc Fetch(RecordFetchRequest) returns (RecordFetchResponse) {}
+}
+
+// 获取记录列表的请求
+message RecordFetchRequest {
+  int64 startTime = 1;     // 开始时间
+  int64 endTime = 2;       // 结束时间
+  string notification = 3; // 通知
+  string action = 4;       // 行为
+}
+
+// 获取记录列表的回复
+message RecordFetchResponse {
+  Status status = 1;                // 状态
+  repeated RecordEntity record = 2; // 记录列表
+}

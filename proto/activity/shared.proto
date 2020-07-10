@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package activity;
+
+// 状态
+message Status {
+  int32 code = 1;     // 状态码
+  string message = 2; // 状态信息
+}
+
+message BlankResponse {
+  Status status = 1; // 状态码
+}
+
+// 操作员
+message Operator {
+  string label = 1; // 标签
+  string type = 2;  // 类型
+}
+
+// 频道实体
+message ChannelEntity {
+  string notification = 1; // 通知
+  string alias = 2;        // 别名
+}
+
+// 记录实体
+message RecordEntity {
+  Operator operator = 1;     // 操作员
+  ChannelEntity channel = 2; // 频道
+  string action = 3;         // 行为
+  string head = 4;           // 记录头
+  string body = 5;           // 记录正文
+  int64 time = 6;            // 时间
+}

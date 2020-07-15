@@ -31,28 +31,32 @@ var _ context.Context
 var _ client.Option
 var _ server.Option
 
-// Client API for Record service
+// Client API for Channel service
 
-type RecordService interface {
+type ChannelService interface {
+	// 订阅
+	Subscribe(ctx context.Context, in *ChannelSubRequest, opts ...client.CallOption) (*BlankResponse, error)
+	// 取消订阅
+	Unsubscribe(ctx context.Context, in *ChannelUnsubRequest, opts ...client.CallOption) (*BlankResponse, error)
 	// 获取列表
-	Fetch(ctx context.Context, in *RecordFetchRequest, opts ...client.CallOption) (*RecordFetchResponse, error)
+	Fetch(ctx context.Context, in *ChannelFetchRequest, opts ...client.CallOption) (*ChannelFetchResponse, error)
 }
 
-type recordService struct {
+type channelService struct {
 	c    client.Client
 	name string
 }
 
-func NewRecordService(name string, c client.Client) RecordService {
-	return &recordService{
+func NewChannelService(name string, c client.Client) ChannelService {
+	return &channelService{
 		c:    c,
 		name: name,
 	}
 }
 
-func (c *recordService) Fetch(ctx context.Context, in *RecordFetchRequest, opts ...client.CallOption) (*RecordFetchResponse, error) {
-	req := c.c.NewRequest(c.name, "Record.Fetch", in)
-	out := new(RecordFetchResponse)
+func (c *channelService) Subscribe(ctx context.Context, in *ChannelSubRequest, opts ...client.CallOption) (*BlankResponse, error) {
+	req := c.c.NewRequest(c.name, "Channel.Subscribe", in)
+	out := new(BlankResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -60,28 +64,62 @@ func (c *recordService) Fetch(ctx context.Context, in *RecordFetchRequest, opts 
 	return out, nil
 }
 
-// Server API for Record service
+func (c *channelService) Unsubscribe(ctx context.Context, in *ChannelUnsubRequest, opts ...client.CallOption) (*BlankResponse, error) {
+	req := c.c.NewRequest(c.name, "Channel.Unsubscribe", in)
+	out := new(BlankResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
 
-type RecordHandler interface {
+func (c *channelService) Fetch(ctx context.Context, in *ChannelFetchRequest, opts ...client.CallOption) (*ChannelFetchResponse, error) {
+	req := c.c.NewRequest(c.name, "Channel.Fetch", in)
+	out := new(ChannelFetchResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// Server API for Channel service
+
+type ChannelHandler interface {
+	// 订阅
+	Subscribe(context.Context, *ChannelSubRequest, *BlankResponse) error
+	// 取消订阅
+	Unsubscribe(context.Context, *ChannelUnsubRequest, *BlankResponse) error
 	// 获取列表
-	Fetch(context.Context, *RecordFetchRequest, *RecordFetchResponse) error
+	Fetch(context.Context, *ChannelFetchRequest, *ChannelFetchResponse) error
 }
 
-func RegisterRecordHandler(s server.Server, hdlr RecordHandler, opts ...server.HandlerOption) error {
-	type record interface {
-		Fetch(ctx context.Context, in *RecordFetchRequest, out *RecordFetchResponse) error
+func RegisterChannelHandler(s server.Server, hdlr ChannelHandler, opts ...server.HandlerOption) error {
+	type channel interface {
+		Subscribe(ctx context.Context, in *ChannelSubRequest, out *BlankResponse) error
+		Unsubscribe(ctx context.Context, in *ChannelUnsubRequest, out *BlankResponse) error
+		Fetch(ctx context.Context, in *ChannelFetchRequest, out *ChannelFetchResponse) error
 	}
-	type Record struct {
-		record
+	type Channel struct {
+		channel
 	}
-	h := &recordHandler{hdlr}
-	return s.Handle(s.NewHandler(&Record{h}, opts...))
+	h := &channelHandler{hdlr}
+	return s.Handle(s.NewHandler(&Channel{h}, opts...))
 }
 
-type recordHandler struct {
-	RecordHandler
+type channelHandler struct {
+	ChannelHandler
 }
 
-func (h *recordHandler) Fetch(ctx context.Context, in *RecordFetchRequest, out *RecordFetchResponse) error {
-	return h.RecordHandler.Fetch(ctx, in, out)
+func (h *channelHandler) Subscribe(ctx context.Context, in *ChannelSubRequest, out *BlankResponse) error {
+	return h.ChannelHandler.Subscribe(ctx, in, out)
+}
+
+func (h *channelHandler) Unsubscribe(ctx context.Context, in *ChannelUnsubRequest, out *BlankResponse) error {
+	return h.ChannelHandler.Unsubscribe(ctx, in, out)
+}
+
+func (h *channelHandler) Fetch(ctx context.Context, in *ChannelFetchRequest, out *ChannelFetchResponse) error {
+	return h.ChannelHandler.Fetch(ctx, in, out)
 }

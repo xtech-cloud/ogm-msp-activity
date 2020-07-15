@@ -20,121 +20,195 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
-// 获取记录列表的请求
-type RecordFetchRequest struct {
-	StartTime            int64    `protobuf:"varint,1,opt,name=startTime,proto3" json:"startTime,omitempty"`
-	EndTime              int64    `protobuf:"varint,2,opt,name=endTime,proto3" json:"endTime,omitempty"`
-	Notification         string   `protobuf:"bytes,3,opt,name=notification,proto3" json:"notification,omitempty"`
-	Action               string   `protobuf:"bytes,4,opt,name=action,proto3" json:"action,omitempty"`
+// 频道订阅的请求
+type ChannelSubRequest struct {
+	Notification         string   `protobuf:"bytes,1,opt,name=notification,proto3" json:"notification,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *RecordFetchRequest) Reset()         { *m = RecordFetchRequest{} }
-func (m *RecordFetchRequest) String() string { return proto.CompactTextString(m) }
-func (*RecordFetchRequest) ProtoMessage()    {}
-func (*RecordFetchRequest) Descriptor() ([]byte, []int) {
+func (m *ChannelSubRequest) Reset()         { *m = ChannelSubRequest{} }
+func (m *ChannelSubRequest) String() string { return proto.CompactTextString(m) }
+func (*ChannelSubRequest) ProtoMessage()    {}
+func (*ChannelSubRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_7d27b048e55a8f0d, []int{0}
 }
 
-func (m *RecordFetchRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_RecordFetchRequest.Unmarshal(m, b)
+func (m *ChannelSubRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ChannelSubRequest.Unmarshal(m, b)
 }
-func (m *RecordFetchRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_RecordFetchRequest.Marshal(b, m, deterministic)
+func (m *ChannelSubRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ChannelSubRequest.Marshal(b, m, deterministic)
 }
-func (m *RecordFetchRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_RecordFetchRequest.Merge(m, src)
+func (m *ChannelSubRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ChannelSubRequest.Merge(m, src)
 }
-func (m *RecordFetchRequest) XXX_Size() int {
-	return xxx_messageInfo_RecordFetchRequest.Size(m)
+func (m *ChannelSubRequest) XXX_Size() int {
+	return xxx_messageInfo_ChannelSubRequest.Size(m)
 }
-func (m *RecordFetchRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_RecordFetchRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_RecordFetchRequest proto.InternalMessageInfo
-
-func (m *RecordFetchRequest) GetStartTime() int64 {
-	if m != nil {
-		return m.StartTime
-	}
-	return 0
+func (m *ChannelSubRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ChannelSubRequest.DiscardUnknown(m)
 }
 
-func (m *RecordFetchRequest) GetEndTime() int64 {
-	if m != nil {
-		return m.EndTime
-	}
-	return 0
-}
+var xxx_messageInfo_ChannelSubRequest proto.InternalMessageInfo
 
-func (m *RecordFetchRequest) GetNotification() string {
+func (m *ChannelSubRequest) GetNotification() string {
 	if m != nil {
 		return m.Notification
 	}
 	return ""
 }
 
-func (m *RecordFetchRequest) GetAction() string {
+// 频道取消订阅的请求
+type ChannelUnsubRequest struct {
+	Notification         string   `protobuf:"bytes,1,opt,name=notification,proto3" json:"notification,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ChannelUnsubRequest) Reset()         { *m = ChannelUnsubRequest{} }
+func (m *ChannelUnsubRequest) String() string { return proto.CompactTextString(m) }
+func (*ChannelUnsubRequest) ProtoMessage()    {}
+func (*ChannelUnsubRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_7d27b048e55a8f0d, []int{1}
+}
+
+func (m *ChannelUnsubRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ChannelUnsubRequest.Unmarshal(m, b)
+}
+func (m *ChannelUnsubRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ChannelUnsubRequest.Marshal(b, m, deterministic)
+}
+func (m *ChannelUnsubRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ChannelUnsubRequest.Merge(m, src)
+}
+func (m *ChannelUnsubRequest) XXX_Size() int {
+	return xxx_messageInfo_ChannelUnsubRequest.Size(m)
+}
+func (m *ChannelUnsubRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ChannelUnsubRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ChannelUnsubRequest proto.InternalMessageInfo
+
+func (m *ChannelUnsubRequest) GetNotification() string {
 	if m != nil {
-		return m.Action
+		return m.Notification
 	}
 	return ""
 }
 
-// 获取记录列表的回复
-type RecordFetchResponse struct {
-	Status               *Status         `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
-	Record               []*RecordEntity `protobuf:"bytes,2,rep,name=record,proto3" json:"record,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}        `json:"-"`
-	XXX_unrecognized     []byte          `json:"-"`
-	XXX_sizecache        int32           `json:"-"`
+// 获取频道列表的请求
+type ChannelFetchRequest struct {
+	Offset               int64    `protobuf:"varint,1,opt,name=offset,proto3" json:"offset,omitempty"`
+	Count                int64    `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *RecordFetchResponse) Reset()         { *m = RecordFetchResponse{} }
-func (m *RecordFetchResponse) String() string { return proto.CompactTextString(m) }
-func (*RecordFetchResponse) ProtoMessage()    {}
-func (*RecordFetchResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_7d27b048e55a8f0d, []int{1}
+func (m *ChannelFetchRequest) Reset()         { *m = ChannelFetchRequest{} }
+func (m *ChannelFetchRequest) String() string { return proto.CompactTextString(m) }
+func (*ChannelFetchRequest) ProtoMessage()    {}
+func (*ChannelFetchRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_7d27b048e55a8f0d, []int{2}
 }
 
-func (m *RecordFetchResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_RecordFetchResponse.Unmarshal(m, b)
+func (m *ChannelFetchRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ChannelFetchRequest.Unmarshal(m, b)
 }
-func (m *RecordFetchResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_RecordFetchResponse.Marshal(b, m, deterministic)
+func (m *ChannelFetchRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ChannelFetchRequest.Marshal(b, m, deterministic)
 }
-func (m *RecordFetchResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_RecordFetchResponse.Merge(m, src)
+func (m *ChannelFetchRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ChannelFetchRequest.Merge(m, src)
 }
-func (m *RecordFetchResponse) XXX_Size() int {
-	return xxx_messageInfo_RecordFetchResponse.Size(m)
+func (m *ChannelFetchRequest) XXX_Size() int {
+	return xxx_messageInfo_ChannelFetchRequest.Size(m)
 }
-func (m *RecordFetchResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_RecordFetchResponse.DiscardUnknown(m)
+func (m *ChannelFetchRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ChannelFetchRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_RecordFetchResponse proto.InternalMessageInfo
+var xxx_messageInfo_ChannelFetchRequest proto.InternalMessageInfo
 
-func (m *RecordFetchResponse) GetStatus() *Status {
+func (m *ChannelFetchRequest) GetOffset() int64 {
+	if m != nil {
+		return m.Offset
+	}
+	return 0
+}
+
+func (m *ChannelFetchRequest) GetCount() int64 {
+	if m != nil {
+		return m.Count
+	}
+	return 0
+}
+
+// 获取频道列表的回复
+type ChannelFetchResponse struct {
+	Status               *Status          `protobuf:"bytes,1,opt,name=status,proto3" json:"status,omitempty"`
+	Total                int64            `protobuf:"varint,2,opt,name=total,proto3" json:"total,omitempty"`
+	Channel              []*ChannelEntity `protobuf:"bytes,3,rep,name=channel,proto3" json:"channel,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}         `json:"-"`
+	XXX_unrecognized     []byte           `json:"-"`
+	XXX_sizecache        int32            `json:"-"`
+}
+
+func (m *ChannelFetchResponse) Reset()         { *m = ChannelFetchResponse{} }
+func (m *ChannelFetchResponse) String() string { return proto.CompactTextString(m) }
+func (*ChannelFetchResponse) ProtoMessage()    {}
+func (*ChannelFetchResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_7d27b048e55a8f0d, []int{3}
+}
+
+func (m *ChannelFetchResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ChannelFetchResponse.Unmarshal(m, b)
+}
+func (m *ChannelFetchResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ChannelFetchResponse.Marshal(b, m, deterministic)
+}
+func (m *ChannelFetchResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ChannelFetchResponse.Merge(m, src)
+}
+func (m *ChannelFetchResponse) XXX_Size() int {
+	return xxx_messageInfo_ChannelFetchResponse.Size(m)
+}
+func (m *ChannelFetchResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_ChannelFetchResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ChannelFetchResponse proto.InternalMessageInfo
+
+func (m *ChannelFetchResponse) GetStatus() *Status {
 	if m != nil {
 		return m.Status
 	}
 	return nil
 }
 
-func (m *RecordFetchResponse) GetRecord() []*RecordEntity {
+func (m *ChannelFetchResponse) GetTotal() int64 {
 	if m != nil {
-		return m.Record
+		return m.Total
+	}
+	return 0
+}
+
+func (m *ChannelFetchResponse) GetChannel() []*ChannelEntity {
+	if m != nil {
+		return m.Channel
 	}
 	return nil
 }
 
 func init() {
-	proto.RegisterType((*RecordFetchRequest)(nil), "activity.RecordFetchRequest")
-	proto.RegisterType((*RecordFetchResponse)(nil), "activity.RecordFetchResponse")
+	proto.RegisterType((*ChannelSubRequest)(nil), "activity.ChannelSubRequest")
+	proto.RegisterType((*ChannelUnsubRequest)(nil), "activity.ChannelUnsubRequest")
+	proto.RegisterType((*ChannelFetchRequest)(nil), "activity.ChannelFetchRequest")
+	proto.RegisterType((*ChannelFetchResponse)(nil), "activity.ChannelFetchResponse")
 }
 
 func init() {
@@ -142,21 +216,24 @@ func init() {
 }
 
 var fileDescriptor_7d27b048e55a8f0d = []byte{
-	// 250 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x74, 0x90, 0xd1, 0x4a, 0xc3, 0x30,
-	0x14, 0x86, 0xed, 0xaa, 0xd1, 0x9d, 0x79, 0x21, 0x47, 0x18, 0x61, 0x56, 0x28, 0xbd, 0xea, 0x55,
-	0x07, 0xf5, 0x19, 0xdc, 0xb5, 0x44, 0x5f, 0x20, 0xa6, 0x91, 0x06, 0x34, 0x99, 0xc9, 0x99, 0xb0,
-	0x37, 0xf0, 0xb1, 0xc5, 0xd3, 0x96, 0xb9, 0x81, 0x97, 0xe7, 0xfb, 0xfe, 0x9e, 0xfe, 0x39, 0x50,
-	0x6c, 0x63, 0xa0, 0xb0, 0xd6, 0x86, 0xdc, 0x97, 0xa3, 0xfd, 0xda, 0xf4, 0xda, 0x7b, 0xfb, 0xde,
-	0x30, 0xc6, 0xab, 0x89, 0xaf, 0xee, 0x4e, 0x72, 0xa9, 0xd7, 0xd1, 0x76, 0x43, 0xac, 0xfa, 0xce,
-	0x00, 0x95, 0x35, 0x21, 0x76, 0x1b, 0x4b, 0xa6, 0x57, 0xf6, 0x73, 0x67, 0x13, 0x61, 0x01, 0xf3,
-	0x44, 0x3a, 0xd2, 0x8b, 0xfb, 0xb0, 0x32, 0x2b, 0xb3, 0x3a, 0x57, 0x07, 0x80, 0x12, 0x2e, 0xad,
-	0xef, 0xd8, 0xcd, 0xd8, 0x4d, 0x23, 0x56, 0x70, 0xed, 0x03, 0xb9, 0x37, 0x67, 0x34, 0xb9, 0xe0,
-	0x65, 0x5e, 0x66, 0xf5, 0x5c, 0x1d, 0x31, 0x5c, 0x82, 0xf8, 0xed, 0x12, 0xbc, 0x3c, 0x67, 0x3b,
-	0x4e, 0x55, 0x80, 0xdb, 0xa3, 0x26, 0x69, 0x1b, 0x7c, 0xb2, 0x58, 0x83, 0x48, 0xa4, 0x69, 0x97,
-	0xb8, 0xc7, 0xa2, 0xbd, 0x69, 0xa6, 0x97, 0x34, 0xcf, 0xcc, 0xd5, 0xe8, 0xb1, 0x01, 0x11, 0x79,
-	0x81, 0x9c, 0x95, 0x79, 0xbd, 0x68, 0x97, 0x87, 0xe4, 0xb0, 0xf8, 0xd1, 0x93, 0xa3, 0xbd, 0x1a,
-	0x53, 0xed, 0x13, 0x88, 0x81, 0xe3, 0x06, 0x2e, 0xf8, 0xa7, 0x58, 0x9c, 0x7e, 0xf2, 0xf7, 0x2a,
-	0xab, 0xfb, 0x7f, 0xec, 0xd0, 0xb4, 0x3a, 0x7b, 0x15, 0x7c, 0xd4, 0x87, 0x9f, 0x00, 0x00, 0x00,
-	0xff, 0xff, 0xa6, 0x9b, 0xfd, 0xfa, 0x9b, 0x01, 0x00, 0x00,
+	// 303 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x92, 0x4d, 0x4e, 0xc3, 0x30,
+	0x10, 0x85, 0x09, 0x55, 0x5b, 0x3a, 0x65, 0x01, 0xa6, 0x82, 0x2a, 0x05, 0x54, 0x65, 0x95, 0x55,
+	0x2a, 0xc2, 0x02, 0xb1, 0x25, 0xe2, 0x67, 0x9d, 0x88, 0x03, 0x38, 0xc6, 0x51, 0x2c, 0x22, 0xbb,
+	0xc4, 0x13, 0xa4, 0x1e, 0x81, 0x63, 0x72, 0x13, 0x84, 0x63, 0xd3, 0x94, 0x02, 0x12, 0xcb, 0x79,
+	0x33, 0xdf, 0x17, 0xf9, 0x29, 0x70, 0xba, 0xac, 0x15, 0xaa, 0x05, 0x65, 0x28, 0x5e, 0x05, 0xae,
+	0x16, 0xac, 0xa4, 0x52, 0xf2, 0x2a, 0x32, 0x31, 0xd9, 0x73, 0xb9, 0x3f, 0xfb, 0x76, 0xa7, 0x4b,
+	0x5a, 0xf3, 0xa7, 0xf6, 0x2c, 0xb8, 0x82, 0xc3, 0xa4, 0xe5, 0xb2, 0x26, 0x4f, 0xf9, 0x4b, 0xc3,
+	0x35, 0x92, 0x00, 0xf6, 0xa5, 0x42, 0x51, 0x08, 0x46, 0x51, 0x28, 0x39, 0xf5, 0xe6, 0x5e, 0x38,
+	0x4a, 0x37, 0xb2, 0xe0, 0x1a, 0x8e, 0x2c, 0xf8, 0x28, 0xf5, 0xff, 0xd0, 0xe4, 0x0b, 0xbd, 0xe3,
+	0xc8, 0x4a, 0x87, 0x1e, 0xc3, 0x40, 0x15, 0x85, 0xe6, 0x68, 0xa0, 0x5e, 0x6a, 0x27, 0x32, 0x81,
+	0x3e, 0x53, 0x8d, 0xc4, 0xe9, 0xae, 0x89, 0xdb, 0x21, 0x78, 0xf3, 0x60, 0xb2, 0x69, 0xd1, 0x4b,
+	0x25, 0x35, 0x27, 0x21, 0x0c, 0x34, 0x52, 0x6c, 0xb4, 0xd1, 0x8c, 0xe3, 0x83, 0xc8, 0xbd, 0x3c,
+	0xca, 0x4c, 0x9e, 0xda, 0xfd, 0xa7, 0x18, 0x15, 0xd2, 0xca, 0x89, 0xcd, 0x40, 0x2e, 0x60, 0x68,
+	0x9b, 0x9c, 0xf6, 0xe6, 0xbd, 0x70, 0x1c, 0x9f, 0xac, 0x05, 0xf6, 0x83, 0xb7, 0x12, 0x05, 0xae,
+	0x52, 0x77, 0x17, 0xbf, 0x7b, 0x30, 0xb4, 0x2b, 0x92, 0xc0, 0x28, 0x6b, 0x72, 0xcd, 0x6a, 0x91,
+	0x73, 0x32, 0xdb, 0x42, 0xd7, 0x2d, 0xfb, 0x1d, 0xef, 0x4d, 0x45, 0xe5, 0xb3, 0x7b, 0x41, 0xb0,
+	0x43, 0xee, 0x61, 0x6c, 0x5a, 0xb5, 0x9a, 0xb3, 0x2d, 0x4d, 0xb7, 0xf3, 0xbf, 0x44, 0x0f, 0xd0,
+	0x37, 0xed, 0xfc, 0xa0, 0xe8, 0x76, 0xef, 0x9f, 0xff, 0xb6, 0x76, 0xa6, 0x7c, 0x60, 0xfe, 0x97,
+	0xcb, 0x8f, 0x00, 0x00, 0x00, 0xff, 0xff, 0x5d, 0x3f, 0x99, 0x45, 0x76, 0x02, 0x00, 0x00,
 }

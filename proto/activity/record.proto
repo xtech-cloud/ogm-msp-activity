@@ -4,34 +4,22 @@ import "proto/activity/shared.proto";
 
 package activity;
 
-// 频道
-service Channel {
-  // 订阅
-  rpc Subscribe(ChannelSubRequest) returns (BlankResponse) {}
-  // 取消订阅
-  rpc Unsubscribe(ChannelUnsubRequest) returns (BlankResponse) {}
+// 记录
+service Record {
   // 获取列表
-  rpc Fetch(ChannelFetchRequest) returns (ChannelFetchResponse) {}
+  rpc Fetch(RecordFetchRequest) returns (RecordFetchResponse) {}
 }
 
-// 频道订阅的请求
-message ChannelSubRequest {
-  string notification = 1; // 通知
+// 获取记录列表的请求
+message RecordFetchRequest {
+  int64 startTime = 1;     // 开始时间
+  int64 endTime = 2;       // 结束时间
+  string notification = 3; // 通知
+  string action = 4;       // 行为
 }
 
-// 频道取消订阅的请求
-message ChannelUnsubRequest {
-  string notification = 1; // 通知
-}
-
-// 获取频道列表的请求
-message ChannelFetchRequest {
-  int64 offset = 1; // 偏移值
-  int64 count = 2;  // 数量
-}
-
-// 获取频道列表的回复
-message ChannelFetchResponse {
-  Status status = 1;                  // 状态
-  repeated ChannelEntity channel = 2; // 频道列表
+// 获取记录列表的回复
+message RecordFetchResponse {
+  Status status = 1;                // 状态
+  repeated RecordEntity record = 2; // 记录列表
 }
